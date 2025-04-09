@@ -1,14 +1,12 @@
 import express from "express";
 
-import { root } from "./calls";
+import AuthRoute from "./auth/router";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.get('/', root);
+app.use('/auth', AuthRoute);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
-
-export {}
