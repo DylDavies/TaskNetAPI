@@ -1,4 +1,3 @@
-import { Auth } from "firebase-admin/auth";
 import { login } from "../../src/auth/router";
 import admin from "firebase-admin";
 
