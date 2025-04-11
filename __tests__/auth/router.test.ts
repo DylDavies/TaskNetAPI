@@ -3,16 +3,19 @@ import admin from "firebase-admin";
 
 jest.mock("firebase-admin", () => {
     const authMock = jest.fn();
+    const firestoreMock = jest.fn()
 
     return {
         auth: authMock,
+        firestore: firestoreMock,
     
         credential: {
             cert: jest.fn()
         },
     
         initializeApp: jest.fn(() => ({
-            auth: authMock
+            auth: authMock,
+            firestore: firestoreMock
         }))
     }
 });
@@ -142,15 +145,26 @@ describe('Authentication tests', () => {
     
             const mockVerifyIdToken = jest.fn().mockResolvedValue({ uid: "123" });
             const mockCreateSessionCookie = jest.fn().mockResolvedValue("mockSessionCookie");
+            const setMock = jest.fn();
         
             (admin.auth as jest.Mock).mockReturnValue({
                 verifyIdToken: mockVerifyIdToken,
                 createSessionCookie: mockCreateSessionCookie
             });
+
+            (admin.firestore as unknown as jest.Mock).mockReturnValue({
+                collection: jest.fn(() => ({
+                    doc: jest.fn(() => ({
+                        get: jest.fn().mockReturnValue({exists: false}),
+                        set: setMock
+                    }))
+                }))
+            });
     
             // @ts-ignore
             await login(req, res);
             
+            expect(setMock).toHaveBeenCalled();
             expect(res.cookie).toHaveBeenCalledWith(
                 "__session",
                 "mockSessionCookie",
