@@ -1,5 +1,7 @@
 import { Request, Response, Router } from "express";
 import { app } from "../firebase";
+import UserType from "../enums/UserType.enum";
+import UserStatus from "../enums/UserStatus.enum";
 
 const router = Router();
 
@@ -35,15 +37,28 @@ const login = async (req: Request, res: Response) => {
     const token = authHeader.split(' ')[1];
 
     let auth = app.auth();
+    let uid = "";
 
     try {
-        await auth.verifyIdToken(token, true);
+        let decodedToken = await auth.verifyIdToken(token, true);
+        uid = decodedToken.uid;
     } catch (error) {
         res.status(401).send(error);
         return;
     }
 
     const cookie = await auth.createSessionCookie(token, {expiresIn: 24 * 60 * 60 * 1000});
+
+    let db = app.firestore();
+
+    let userDoc = await db.collection("users").doc(uid).get();
+
+    if (!userDoc.exists) {
+        db.collection("users").doc(uid).set({
+            type: UserType.None,
+            status: UserStatus.Pending
+        });
+    }
 
     res.cookie('__session', cookie, {
         maxAge: 24 * 60 * 60 * 1000,
