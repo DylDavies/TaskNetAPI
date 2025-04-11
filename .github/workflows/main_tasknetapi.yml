@@ -6,7 +6,6 @@ name: Build and deploy Node.js app to Azure Web App - tasknetapi
 on:
   release:
     types: [published]
-  workflow_dispatch:
 
 jobs:
   build:
