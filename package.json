@@ -4,7 +4,8 @@
   "description": "",
   "main": "build/index.js",
   "scripts": {
-    "start": "npm run build && npm run serve",
+    "dev": "npm run build && npm run serve",
+    "start": "node_modules/typescript/bin/next && npm run serve",
     "build": "tsc",
     "serve": "node dist/src/index.js",
     "test": "jest",
