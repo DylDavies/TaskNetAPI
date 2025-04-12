@@ -4,9 +4,9 @@
   "description": "",
   "main": "build/index.js",
   "scripts": {
-    "dev": "ts-node src/index.ts",
+    "start": "npm run build && npm run serve",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "serve": "node dist/src/index.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -21,15 +21,20 @@
   },
   "homepage": "https://github.com/DylDavies/TaskNetAPI#readme",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.14.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.3.1",
-    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.2.0"
   }
 }
