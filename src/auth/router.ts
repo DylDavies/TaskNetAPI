@@ -62,7 +62,7 @@ const login = async (req: Request, res: Response) => {
 
     res.cookie('__session', cookie, {
         maxAge: 24 * 60 * 60 * 1000,
-        secure: false,
+        secure: !!process.env.PROD,
         httpOnly: true,
         sameSite: "strict"
     })
