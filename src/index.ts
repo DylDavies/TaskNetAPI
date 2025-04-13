@@ -17,6 +17,10 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(cors({origin: process.env.ORIGIN, credentials: true}));
 
+if (process.env.PROD === 'true') {
+    app.set('trust proxy', 1);
+}
+
 app.use('/auth', AuthRoute);
 app.use('/admin', authenticateUser, AdminRoute);
 
