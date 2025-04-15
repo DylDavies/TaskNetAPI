@@ -15,7 +15,7 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(cors({origin: ['https://tasknet.tech', 'https://tasknet-4bede.firebaseapp.com'], credentials: true}));
+app.use(cors({origin: ['https://tasknet.tech', 'https://tasknet-4bede.firebaseapp.com', process.env.ORIGIN as string], credentials: true}));
 
 if (process.env.PROD === 'true') {
     app.set('trust proxy', 1);

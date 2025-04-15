@@ -26,6 +26,11 @@ const sessionCheck = async (req: Request, res: Response) => {
     }
 };
 
+const logout = async (req: Request, res: Response) => {
+    res.clearCookie("__session");
+    res.status(200).send({success: true});
+}
+
 const login = async (req: Request, res: Response) => {
     let authHeader = req.headers['authorization'];
 
@@ -72,6 +77,7 @@ const login = async (req: Request, res: Response) => {
 
 router.post('/login', login);
 router.post('/session', sessionCheck);
+router.post('/logout', logout);
 
 export default router;
 export { login, sessionCheck };
