@@ -6,8 +6,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import AuthRoute from "./auth/router";
-import AdminRoute from "./admin/router";
-import { authenticateUser } from "./middleware/authenticateUser";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -22,7 +20,6 @@ if (process.env.PROD === 'true') {
 }
 
 app.use('/auth', AuthRoute);
-app.use('/admin', authenticateUser, AdminRoute);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
