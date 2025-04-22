@@ -6,8 +6,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import AuthRoute from "./auth/router";
-import AdminRoute from "./admin/router";
-import { authenticateUser } from "./middleware/authenticateUser";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -15,14 +13,13 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(cors({origin: ['https://tasknet.tech', 'https://tasknet-4bede.firebaseapp.com'], credentials: true}));
+app.use(cors({origin: ['https://tasknet.tech', 'https://tasknet-4bede.firebaseapp.com', process.env.ORIGIN as string], credentials: true}));
 
 if (process.env.PROD === 'true') {
     app.set('trust proxy', 1);
 }
 
 app.use('/auth', AuthRoute);
-app.use('/admin', authenticateUser, AdminRoute);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
